@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'PHPMailer/Exception.php';
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
+require_once 'config.php';
 
 function sendOTP($to_email, $otp_code, $type = 'register') {
     $mail = new PHPMailer(true);
@@ -18,8 +19,8 @@ function sendOTP($to_email, $otp_code, $type = 'register') {
         // ==========================================
         // UBAH DENGAN EMAIL DAN APP PASSWORD ANDA
         // ==========================================
-        $mail->Username   = 'danialgibran0@gmail.com'; // Ganti dengan Gmail Anda
-        $mail->Password   = 'zbcnoroyphmjxzak';    // Ganti dengan App Password Gmail (bukan password biasa)
+        $mail->Username = SMTP_USER;
+        $mail->Password = SMTP_PASSWORD; // <-- PENTING: Jangan pakai tanda kutip!
         // ==========================================
         
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
