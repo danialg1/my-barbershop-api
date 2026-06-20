@@ -19,7 +19,7 @@ function sendOTP($to_email, $otp_code, $type = 'register') {
         // UBAH DENGAN EMAIL DAN APP PASSWORD ANDA
         // ==========================================
         $mail->Username   = 'danialgibran0@gmail.com'; // Ganti dengan Gmail Anda
-        $mail->Password   = 'mypeqpocihasrufv';    // Ganti dengan App Password Gmail (bukan password biasa)
+        $mail->Password   = 'zbcnoroyphmjxzak';    // Ganti dengan App Password Gmail (bukan password biasa)
         // ==========================================
         
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;

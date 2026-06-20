@@ -6,7 +6,7 @@ $result = $conn->query($sql);
 $services = [];
 
 if ($result) {
-    $base_url = "http://192.168.1.5/barbershop_api/uploads/services/";
+    $base_url = "http://192.168.1.4/barbershop_api/uploads/services/";
     while($row = $result->fetch_assoc()) {
         if (!empty($row['image'])) {
             if (strpos($row['image'], 'http') === 0) {

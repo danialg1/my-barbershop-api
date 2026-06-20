@@ -44,7 +44,7 @@ if ($action === 'read') {
     $sql = "SELECT * FROM services ORDER BY created_at DESC";
     $result = $conn->query($sql);
     $services = [];
-    $base_url = "http://192.168.1.5/barbershop_api/uploads/services/";
+    $base_url = "http://192.168.1.4/barbershop_api/uploads/services/";
     
     if ($result) {
         while($row = $result->fetch_assoc()) {
