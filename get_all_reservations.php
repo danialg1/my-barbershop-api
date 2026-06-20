@@ -8,7 +8,8 @@ $sql = "SELECT
             u.name as customer_name,
             b.name as barber_name, 
             s.name as service_name, 
-            s.price as service_price
+            s.price as service_price,
+            r.cancel_reason
         FROM reservations r
         JOIN users u ON r.user_id = u.id
         LEFT JOIN users b ON r.barber_id = b.id

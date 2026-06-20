@@ -16,7 +16,8 @@ $sql = "SELECT
             r.status, 
             b.name as barber_name, 
             s.name as service_name, 
-            s.price as service_price
+            s.price as service_price,
+            r.cancel_reason
         FROM reservations r
         LEFT JOIN users b ON r.barber_id = b.id
         LEFT JOIN services s ON r.service_id = s.id

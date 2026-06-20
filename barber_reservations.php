@@ -21,12 +21,13 @@ if ($action == 'get_schedule') {
                 u.name as customer_name,
                 u.photo as customer_photo,
                 s.name as service_name,
-                s.price as service_price
+                s.price as service_price,
+                r.cancel_reason
             FROM reservations r
             JOIN users u ON r.user_id = u.id
             JOIN services s ON r.service_id = s.id
             WHERE r.barber_id = '$barber_id' 
-            AND r.status IN ('pending', 'confirmed', 'in_progress')
+            AND r.status IN ('pending', 'confirmed', 'in_progress', 'cancel_requested')
             ORDER BY r.reservation_date ASC";
             
     $result = $conn->query($sql);
