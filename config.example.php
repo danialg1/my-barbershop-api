@@ -1,0 +1,3 @@
+<?php
+define('MIDTRANS_SERVER_KEY', 'YOUR_MIDTRANS_SERVER_KEY_HERE');
+?>
