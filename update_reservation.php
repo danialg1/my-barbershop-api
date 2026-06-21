@@ -1,5 +1,6 @@
 <?php
 require 'koneksi.php';
+require_once 'fcm_helper.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -43,6 +44,10 @@ if ($check && $check->num_rows > 0) {
     if ($conn->query($sql)) {
         // Notify user
         $conn->query("INSERT INTO notifications (user_id, title, message) VALUES ('$user_id', '$title', '$msg')");
+        
+        $userTokens = getTokensByUserId($conn, $user_id);
+        sendFCMNotification($userTokens, $title, $msg, ['type' => 'reservation']);
+        
         echo json_encode(["status" => "success", "message" => "Status pembatalan berhasil diperbarui"]);
     } else {
         echo json_encode(["status" => "error", "message" => "Gagal update: " . $conn->error]);

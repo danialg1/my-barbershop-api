@@ -1,2 +1,5 @@
 config.php
 uploads/
+firebase-adminsdk.json
+node_modules/
+fcm_server/node_modules/

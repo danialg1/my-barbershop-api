@@ -1,5 +1,6 @@
 <?php
 require 'koneksi.php';
+require_once 'fcm_helper.php';
 
 // Menangkap laporan dari Midtrans
 $json_result = file_get_contents('php://input');
@@ -33,12 +34,22 @@ if ($result) {
             if ($user_id) {
                 $msg = "Pembayaran Anda untuk Order #$db_reservation_id telah lunas. Reservasi berhasil dikonfirmasi!";
                 $conn->query("INSERT INTO notifications (user_id, title, message, type) VALUES ('$user_id', 'Pembayaran Berhasil', '$msg', 'payment')");
+                
+                $custTokens = getTokensByUserId($conn, $user_id);
+                sendFCMNotification($custTokens, 'Pembayaran Berhasil', $msg, ['type' => 'payment']);
             }
             // Insert Notifikasi untuk Barber
             if ($barber_id) {
                 $msg_b = "Ada pembayaran lunas untuk Order #$db_reservation_id. Silakan periksa jadwal Anda.";
                 $conn->query("INSERT INTO notifications (user_id, title, message, type) VALUES ('$barber_id', 'Reservasi Baru Terbayar', '$msg_b', 'payment')");
+                
+                $barberTokens = getTokensByUserId($conn, $barber_id);
+                sendFCMNotification($barberTokens, 'Reservasi Baru Terbayar', $msg_b, ['type' => 'payment']);
             }
+            // Notifikasi ke Admin
+            $msg_admin = "Pembayaran lunas untuk Order #$db_reservation_id.";
+            $adminTokens = getAdminTokens($conn);
+            sendFCMNotification($adminTokens, 'Reservasi Baru Terbayar', $msg_admin, ['type' => 'payment']);
 
         } 
         else if ($transaction_status == 'cancel' || $transaction_status == 'expire') {
@@ -59,6 +70,9 @@ if ($result) {
             if ($user_id) {
                 $msg = "Pembayaran untuk Order #$db_reservation_id telah dibatalkan atau kedaluwarsa.";
                 $conn->query("INSERT INTO notifications (user_id, title, message, type) VALUES ('$user_id', 'Pembayaran Gagal', '$msg', 'payment')");
+                
+                $custTokens = getTokensByUserId($conn, $user_id);
+                sendFCMNotification($custTokens, 'Pembayaran Gagal', $msg, ['type' => 'payment']);
             }
         }
     }

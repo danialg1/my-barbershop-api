@@ -38,6 +38,11 @@ if (isset($data['user_id'])) {
             // Potong poin
             $conn->query("UPDATE users SET used_elite_points = used_elite_points + 25 WHERE id='$user_id'");
         }
+    } else if (isset($data['promo_discount']) && $data['promo_discount'] > 0) {
+        $promo_discount = (int)$data['promo_discount'];
+        $discount_amount = ($gross_amount * $promo_discount) / 100;
+        $gross_amount = $gross_amount - $discount_amount;
+        $discount_applied = 1; // Or you could use a different flag
     }
 
     $barber_id = $conn->real_escape_string($data['barber_id']);

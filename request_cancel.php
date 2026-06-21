@@ -1,5 +1,6 @@
 <?php
 require 'koneksi.php';
+require_once 'fcm_helper.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -38,10 +39,16 @@ if ($conn->query($sql) === TRUE) {
             $a_id = $admin['id'];
             $conn->query("INSERT INTO notifications (user_id, title, message) VALUES ('$a_id', 'Permintaan Batal Reservasi', '$message')");
         }
+        
+        $adminTokens = getAdminTokens($conn);
+        sendFCMNotification($adminTokens, 'Permintaan Batal Reservasi', $message, ['type' => 'reservation']);
 
         // Notify Barber (if assigned)
         if (!empty($barber_id)) {
             $conn->query("INSERT INTO notifications (user_id, title, message) VALUES ('$barber_id', 'Permintaan Batal Reservasi', '$message')");
+            
+            $barberTokens = getTokensByUserId($conn, $barber_id);
+            sendFCMNotification($barberTokens, 'Permintaan Batal Reservasi', $message, ['type' => 'reservation']);
         }
     }
 

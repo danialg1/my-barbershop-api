@@ -1,5 +1,6 @@
 <?php
 require 'koneksi.php';
+require_once 'fcm_helper.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
 // Pastikan request mengirimkan ID Barber dan aksi yang mau dilakukan
@@ -77,6 +78,9 @@ if ($action == 'get_schedule') {
             
             if ($title != "") {
                 $conn->query("INSERT INTO notifications (user_id, title, message, type) VALUES ('$user_id', '$title', '$msg', 'reservation')");
+                
+                $custTokens = getTokensByUserId($conn, $user_id);
+                sendFCMNotification($custTokens, $title, $msg, ['type' => 'reservation']);
             }
         }
         
