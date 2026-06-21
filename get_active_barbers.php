@@ -18,7 +18,7 @@ if ($result) {
             // Assume base64
             $image_url = 'data:image/jpeg;base64,' . $photo;
         } else {
-            $image_url = 'http://192.168.1.4/barbershop_api/uploads/' . $photo;
+            $image_url = 'https://aleen-pseudoanaphylactic-bewailingly.ngrok-free.dev/barbershop_api/uploads/' . $photo;
         }
 
         $barbers[] = [
